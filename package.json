@@ -25,7 +25,7 @@
     "url": "https://github.com/lupomikti/migoto-vscode.git"
   },
   "publisher": "AGMG",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.90.0"
