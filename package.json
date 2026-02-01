@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lupomikti/3dmigoto-ini-extension.git"
+    "url": "https://github.com/lupomikti/migoto-vscode.git"
   },
   "publisher": "AGMG",
   "version": "0.10.2",
@@ -71,7 +71,8 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/bun": "^1.3.8",
+    "@types/node": "^25.1.0",
     "@types/vscode": "^1.73.0",
     "typescript": "^5.6.2"
   },
