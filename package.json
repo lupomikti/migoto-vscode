@@ -43,7 +43,9 @@
           "3dmigoto"
         ],
         "extensions": [
-          ".ini"
+          ".ini",
+          ".3dm",
+          ".migoto"
         ],
         "configuration": "./migoto.language-configuration.json"
       }
