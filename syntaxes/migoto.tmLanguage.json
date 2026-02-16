@@ -1554,22 +1554,6 @@
                     {
                       "name": "meta.keyword.rhs constant.language.draw.migoto",
                       "match": "(?i)\\b(auto|from_caller)\\b"
-                    },
-                    {
-                      "name": "meta.statement.resource-offset",
-                      "match": "(?i)([^,\\d\\r\\n]+)\\s*,\\s*(\\d+)",
-                      "captures": {
-                        "1": {
-                          "patterns": [
-                            {
-                              "include": "#resource"
-                            }
-                          ]
-                        },
-                        "2": {
-                          "name": "constant.numeric.migoto"
-                        }
-                      }
                     }
                   ]
                 }
@@ -1925,11 +1909,11 @@
       "patterns": [
         {
           "name": "constant.other.path.migoto",
-          "match": "(?i)(?=.*[\\\\/])(?:(?:(?:[a-z]:|\\.[.]?)[\\\\/])?(?![\\s\\\\/]+)(?:\\.\\.|\\b[^>\\\\|/<?:*=$]+)(?:(?:\\\\|/)(?:\\.\\.|[^>\\\\|/<?:*=$\\r\\n]+))+)"
+          "match": "(?i)(?=.*[\\\\/])(?:(?:(?:[a-z]:|\\.[.]?)[\\\\/])?(?![\\s\\\\/]+)(?:\\.\\.|\\b[^>\\\\|/<?:*$]+)(?:(?:\\\\|/)(?:\\.\\.|[^>\\\\|/<?:*$\\r\\n]+))+)"
         },
         {
           "name": "constant.other.file.migoto",
-          "match": "(?i)[^>\\\\|/<?:*=$]+(?!\\s+)\\.(?=[a-z0-9]*[a-z]+)[a-z0-9]+"
+          "match": "(?i)[^>\\\\|/<?:*$]+(?!\\s+)\\.(?=[a-z0-9]*[a-z]+)[a-z0-9]+"
         }
       ]
     },
