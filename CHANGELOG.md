@@ -7,15 +7,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.11.1
+
+Date: 2026-06-29
+
+### Fixed
+- Fixed the expression for the form of numeric constants supported
+
+### Added
+- Added support for new XXMI v0.9.2 Pool section type and new operators
+- Added support for new XXMI feature to allow `$variables` as setting statement values
+
+### Changed
+- Changed the scope names of some section headers and other items to diversify highlighting
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.11.0...v0.11.1
+
+## v0.11.0
+
+Date: 2026-06-16
+
+This release doesn't change functionality very much.
+It's a refactor of the syntaxes to be more in line with the way the grammar.js file of tree-sitter-migoto is written.
+Alignment will make things easier to maintain going forward.
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.10.4...v0.11.0
+
+## v0.10.4
+
+Date: 2026-02-16
+
+### Fixes
+
+- Fixed an issue that prevented the arguments to a draw instruction from highlighting correctly in certain circumstances
+
+**Full Changelog:** https://github.com/lupomikti/migoto-vscode/compare/v0.10.3...v0.10.4
+
+## v0.10.3
+
+Date: 2026-01-31
+
 Moved code base into its own repository in preparation for submodule implementation in previous repository.
 
 ### Added
 
 - Created CHANGELOG file.
+- Added a CONTRIBUTING.md file
+- Added support for .3dm and .migoto file extensions
 
 ### Changed
 
 - Updated LICENSE file name.
+- Implemented the use of Bun for package management
+
+**Full Changelog:** https://github.com/lupomikti/3dmigoto-ini-extension/compare/v0.10.2...v0.10.3
 
 ## v0.10.2
 
