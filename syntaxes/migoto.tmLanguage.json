@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.schemastore.org/tmlanguage.json",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scopeName": "source.migoto",
   "name": "migoto",
   "fileTypes": [
@@ -165,7 +165,7 @@
           "name": "punctuation.definition.entity.begin.migoto"
         },
         "2": {
-          "name": "entity.name.section.group-title.migoto"
+          "name": "entity.name.constructor.migoto"
         },
         "3": {
           "name": "punctuation.definition.entity.end.migoto"
@@ -192,7 +192,7 @@
           "name": "punctuation.definition.entity.begin.migoto"
         },
         "2": {
-          "name": "entity.name.section.group-title.migoto"
+          "name": "entity.name.function.migoto"
         },
         "3": {
           "name": "punctuation.definition.entity.end.migoto"
@@ -648,7 +648,7 @@
     },
     "setting-section": {
       "name": "meta.section.settings.migoto",
-      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (Logging|System|Device|Stereo|Rendering|Profile|ConvergenceMap|Loader|Resource.+|Include.*) # capture group 2, section header\n  [ \\t]*\n  (\\]) # capture group 3, closing bracket\n[ \\t]*$\n)",
+      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (Logging|System|Device|Stereo|Rendering|Profile|ConvergenceMap|Loader|(?:Resource|Pool).+|Include.*) # capture group 2, section header\n  [ \\t]*\n  (\\]) # capture group 3, closing bracket\n[ \\t]*$\n)",
       "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
       "beginCaptures": {
         "1": {
@@ -672,16 +672,19 @@
     },
     "commandlist-section": {
       "name": "meta.section.commandlists.migoto",
-      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (\n   Clear(?:RenderTarget|DepthStencil)View | ClearUnorderedAccessView(?:Uint|Float) |\n   (?: TextureOverride | ShaderOverride | (?:BuiltIn)?(?:CustomShader|CommandList) ).+\n  )    # capture group 2, section header\n  [ \\t]*\n  (\\]) # capture group 3, closing bracket\n[ \\t]*$\n)",
+      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (?:\n    ( Clear(?:RenderTarget|DepthStencil)View | ClearUnorderedAccessView(?:Uint|Float) | (?: TextureOverride | ShaderOverride ).+ ) |\n    ( (?:BuiltIn)?(?:CustomShader|CommandList).+ )\n  )    # capture group 2 & 3, section header\n  [ \\t]*\n  (\\]) # capture group 4, closing bracket\n[ \\t]*$\n)",
       "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.entity.begin.migoto"
         },
         "2": {
-          "name": "entity.name.section.group-title.migoto"
+          "name": "entity.name.class.migoto"
         },
         "3": {
+          "name": "entity.name.function.migoto"
+        },
+        "4": {
           "name": "punctuation.definition.entity.end.migoto"
         }
       },
@@ -716,6 +719,9 @@
             "3": {
               "patterns": [
                 {
+                  "include": "#named-variable"
+                },
+                {
                   "include": "#resource-type"
                 },
                 {
@@ -735,6 +741,9 @@
             "4": {
               "patterns": [
                 {
+                  "include": "#named-variable"
+                },
+                {
                   "include": "#string"
                 },
                 {
@@ -747,6 +756,9 @@
             },
             "5": {
               "patterns": [
+                {
+                  "include": "#named-variable"
+                },
                 {
                   "include": "#string"
                 },
@@ -982,7 +994,7 @@
         },
         {
           "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(?:(pre|post)\\s+)? # pre and post modifiers, optional\n\\b(\n  [vgdhpcsturfibo\\-\\d_]+\\b |\n  this\\b | (?:ini|stereo)params\\b | cursor_(?:mask|color)\\b |\n  Resource\\S+\n)   # a limited resource operand (buffer/shader variable, resource identifier, custom resource)\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # resource usage expression\n(?:$|\\n)",
+          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(?:(pre|post)\\s+)? # pre and post modifiers, optional\n\\b(\n  [vgdhpcsturfibo\\-\\d_]+\\b |\n  this\\b | (?:ini|stereo)params\\b | cursor_(?:mask|color)\\b |\n  (?:Resource|Pool)\\S+\n)   # a limited resource operand (buffer/shader variable, resource identifier, custom resource, pool)\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # resource usage expression\n(?:$|\\n)",
           "captures": {
             "1": {
               "name": "meta.command-list.priority keyword.control.directive.migoto"
@@ -1489,19 +1501,31 @@
     },
     "illegal-operator": {
       "name": "invalid.illegal.operator.migoto",
-      "match": "(?xi) -{2,} | \\+{2,} | \\*{3,} | /{3,} | %{2,} | [><]={2,} | ! ={3,} | ={4,} | [><]{2,} | &{3,} | \\|{3,} | \\^+ "
+      "match": "(?xi)(?:\n-{2,} | \\+{2,} | \\*{3,} | /{3,} | %{2,} | [><]={2,} |\n! ={3,} | ={4,} | [><]{3,} | &{3,} | \\|{3,} | \\^{2,} |\n~{2,} | @{2,} | \\#{2,}\n)"
     },
     "operator": {
-      "match": "(?xi)\n(?:\n  ( \\*\\* | \\* | \\+ | - | % | // | / ) |       # arithmetic operators\n  ( !== | != | === | == | >= | <= | > | < ) | # comparison operators\n  ( ! | && | \\|\\| )                           # logical operators\n)",
+      "match": "(?xi)\n(?:\n  ( \\*\\* | \\* | \\+ | - | % | // | / ) |       # arithmetic operators\n  ( >> | << ) |                               # bit shift operators\n  ( !== | != | === | == | >= | <= | > | < ) | # comparison operators\n  ( ! | && | \\|\\| ) |                         # logical operators\n  ( ~ | & | \\| | ^ ) |                        # bitwise operators\n  ( @ ) | ( \\# )                              # identity and index/size operators\n)",
       "captures": {
         "1": {
           "name": "keyword.operator.math.migoto"
         },
         "2": {
-          "name": "keyword.operator.comparison.migoto"
+          "name": "keyword.operator.bit-shift.migoto"
         },
         "3": {
+          "name": "keyword.operator.comparison.migoto"
+        },
+        "4": {
           "name": "keyword.operator.logical.migoto"
+        },
+        "5": {
+          "name": "keyword.operator.bitwise.migoto"
+        },
+        "6": {
+          "name": "keyword.operator.identity.migoto"
+        },
+        "7": {
+          "name": "keyword.operator.index.migoto"
         }
       }
     },
@@ -1541,6 +1565,9 @@
         },
         {
           "include": "#custom-resource"
+        },
+        {
+          "include": "#resource-pool"
         }
       ]
     },
@@ -1648,21 +1675,104 @@
       }
     },
     "custom-resource": {
-      "name": "meta.variable.custom-resource variable.other.readwrite.migoto",
-      "match": "\\b(?i)Resource(\\\\[^=$\\r\\n]+\\\\)?([^\\/&!>|<= $,\\r\\n]+)\\b(?!\\\\)",
+      "name": "meta.variable.custom-resource",
+      "match": "\\b(?i)(Resource)(\\\\[^=$\\r\\n]+\\\\)?([^/&!>|< $=,\\[\\]\\r\\n]+?)(->[a-z0-9]+)?\\b(?!\\\\)",
       "captures": {
         "1": {
+          "name": "entity.name.tag.migoto"
+        },
+        "2": {
           "patterns": [
             {
               "include": "#namespace"
             }
           ]
         },
+        "3": {
+          "patterns": [
+            {
+              "include": "#resource-identifier"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "name": "meta.expression.property-access",
+              "match": "(?i)(->)([a-z0-9]+)",
+              "captures": {
+                "1": {
+                  "name": "keyword.operator.accessor.migoto"
+                },
+                "2": {
+                  "name": "variable.other.property.migoto"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "resource-pool": {
+      "name": "meta.variable.resource-pool",
+      "match": "\\b(?i)(Pool)(\\\\[^=$\\r\\n]+\\\\)?([^/&!>|< $=,\\[\\]\\r\\n]+?\\b)(\\[[+$\\w.-]+?\\])?(->[a-z0-9]+\\b)?(?!\\\\)",
+      "captures": {
+        "1": {
+          "name": "entity.name.tag.migoto"
+        },
         "2": {
           "patterns": [
             {
-              "name": "entity.name.function.migoto",
-              "match": "[^\\/&!>|<= $,\\r\\n]+"
+              "include": "#namespace"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#resource-identifier"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "name": "meta.expression.indexing",
+              "match": "(?i)(\\[)(.+)(\\])",
+              "captures": {
+                "1": {
+                  "name": "punctuation.delimiter.bracket.migoto"
+                },
+                "2": {
+                  "patterns": [
+                    {
+                      "include": "#named-variable"
+                    },
+                    {
+                      "include": "#constant"
+                    }
+                  ]
+                },
+                "3": {
+                  "name": "punctuation.delimiter.bracket.migoto"
+                }
+              }
+            }
+          ]
+        },
+        "5": {
+          "patterns": [
+            {
+              "name": "meta.expression.property-access",
+              "match": "(?i)(->)([a-z0-9]+)",
+              "captures": {
+                "1": {
+                  "name": "keyword.operator.accessor.migoto"
+                },
+                "2": {
+                  "name": "variable.other.property.migoto"
+                }
+              }
             }
           ]
         }
@@ -1692,6 +1802,10 @@
     "section-identifier": {
       "name": "entity.name.function.migoto",
       "match": "[^=$,\\r\\n]+"
+    },
+    "resource-identifier": {
+      "name": "entity.name.class.migoto",
+      "match": "[^/&!>|< $=,\\r\\n]+"
     },
     "ini-parameter": {
       "name": "variable.parameter.migoto",
@@ -1774,7 +1888,11 @@
         },
         {
           "name": "constant.numeric.migoto",
-          "match": "[-+]?\\b(?:\\d+(?:\\.\\d+)?|\\.\\d+)\\b"
+          "match": "[+-]?\\d+(\\.\\d+(e[-+]\\d+)?)?\\b"
+        },
+        {
+          "name": "constant.numeric.migoto",
+          "match": "[+-]?\\.\\d+\\b"
         }
       ]
     },
