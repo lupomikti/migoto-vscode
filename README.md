@@ -1,5 +1,5 @@
 ## What is this project?
-Inspired by the work done in the [GIMI_ini_extension](https://github.com/lewis252310/GIMI_ini_Extension) repo, this project provides multi-editor syntax highlighting for .ini files used by the program 3DMigoto which have much more extensive syntax than the typical header + key-value pair structure of normal .ini files. The reason for this project's existence is then to improve upon that work by using more standardized scope names such that the highlighting will work with more themes out-of-the-box and will not need to provide its own theme; it also creates a grammar structure much more conducive to additions and modifications. While that original repo also provides additional functionality beyond the highlighting, this one currently only provides said highlighting with plans to reproduce those programmatic features in the future via an LSP language server and Tree Sitter parsing.
+Inspired by the work done in the [GIMI_ini_extension](https://github.com/lewis252310/GIMI_ini_Extension) repo, this extension is part of a larger project to provide multi-editor syntax highlighting for .ini files used by the program 3DMigoto, which have much more extensive syntax than the typical header + key-value pair structure of normal .ini files. The reason for the project's existence is then to improve upon that work by using more standardized scope names such that the highlighting will work with more themes out-of-the-box and will not need to provide its own theme. This extension also creates a grammar structure much more conducive to additions and modifications. While that original repo also provides additional functionality beyond the highlighting, this one currently only provides said highlighting with plans to reproduce those programmatic features in the future via an LSP language server and Tree Sitter parsing.
 
 The Tree-sitter parser project is live and can be found at [tree-sitter-migoto](https://github.com/lupomikti/tree-sitter-migoto).
 
@@ -7,7 +7,13 @@ The Tree-sitter parser project is live and can be found at [tree-sitter-migoto](
 
 Currently this extension only provides syntax highlighting and some very rudimentary language configuration. It will include programmatic language features in the future once an LSP language server is in place.
 
-#### Some things to note:
+### Some things to note:
+
+If you wish to know more about how you can contribute to this extension, please check out the [CONTRIBUTING](CONTRIBUTING.md) document.
+
+A log of all changes for this extension is provided with the [CHANGELOG](CHANGELOG.md) document.
+
+#### Customization
 Not all scopes are commonly styled by themes. For example, a lot of themes do not provide styling for the broad scope `variable.language`, opting to style things that are more specific like `variable.language.this.cpp`. Here are some scopes that I have personally created styling for in my `settings.json` for my current theme.
 
 - `variable.other.readwrite`
@@ -18,10 +24,13 @@ Not all scopes are commonly styled by themes. For example, a lot of themes do no
 - `entity.name.namespace.migoto` (themes usually style this one, I just don't like the color chosen with my theme next to the variable color, so I changed it)
 - `entity.name.section.group-title.migoto` (after the change from `.ini.3dm` to `.migoto`, section titles no longer piggy-backed off of the default INI file coloring, so I needed to make a rule for it)
 - `keyword.other.instruction` (originally just to make them bold, now they are colored quite differently too)
+- `variable.object.property` (I believe a lot of themes make this default text colored, so I changed it)
 
 Here's how to edit a theme via your `settings.json`:
 
-Open up your `settings.json` file; you can do this by opening the command palette (Ctrl+Shift+P on Windows), typing "Open User Settings" and choosing the one that has (JSON) next to it. In it, start a new property called `"editor.tokenColorCustomizations"` with the value an object, and in that object made a property for the name of your theme in square brackets [ ]. This will also have an object value, with a property of `"textMateRules"` whose value is an array of objects with a scope property and a settings property. That's a bit hard to follow in text, so here's an example using the Catppuccin Mocha theme:
+Open up your `settings.json` file; you can do this by opening the command palette (Ctrl+Shift+P on Windows), typing "Open User Settings" and choosing the one that has (JSON) next to it. In it, start a new property called `"editor.tokenColorCustomizations"` with the value an object, and in that object make a property for the name of your theme in square brackets [ ]. This will also have an object value, with a property of `"textMateRules"` whose value is an array of objects with a scope property and a settings property.
+
+That's a bit hard to follow in text, so here's an example using the Catppuccin Mocha theme. Feel free to copy this, replace the name of the theme, and then edit the colors and styles to your liking!
 
 ```jsonc
 {
@@ -31,20 +40,23 @@ Open up your `settings.json` file; you can do this by opening the command palett
         "[Catppuccin Mocha]": {
             "textMateRules": [
                 {
-                    // fontStyle is always required, but you can leave it set to the empty string ""
-                    "scope": "entity.name.section.group-title.migoto",
-                    "settings": {
-                        "foreground": "#f9e2af",
-                        "fontStyle": "italic"
-                    }
-                }
-                {
                     "scope": [
+                        "variable",
                         "variable.other.readwrite",
                         "punctuation.definition.variable"
                     ],
+                    // fontStyle is always required, but you can leave it set to the empty string ""
                     "settings": {
                         "foreground": "#f5c2e7",
+                        "fontStyle": ""
+                    }
+                },
+                {
+                    "scope": [
+                        "variable.object.property"
+                    ],
+                    "settings": {
+                        "foreground": "#9da4d1",
                         "fontStyle": ""
                     }
                 },
@@ -57,6 +69,15 @@ Open up your `settings.json` file; you can do this by opening the command palett
                     ],
                     "settings": {
                         "foreground": "#f38ba8",
+                        "fontStyle": ""
+                    }
+                },
+                {
+                    "scope": [
+                        "entity.name.tag.migoto",
+                    ],
+                    "settings": {
+                        "foreground": "#eba0ac",
                         "fontStyle": ""
                     }
                 },
@@ -100,6 +121,13 @@ Open up your `settings.json` file; you can do this by opening the command palett
                     }
                 },
                 {
+                    "scope": "entity.name.section.group-title.migoto",
+                    "settings": {
+                        "foreground": "#f5e0dc",
+                        "fontStyle": ""
+                    }
+                },
+                {
                     "scope": [
                         "entity.name.namespace.migoto"
                     ],
@@ -110,6 +138,7 @@ Open up your `settings.json` file; you can do this by opening the command palett
                 },
                 {
                     "scope": [
+                        "entity.name.constructor",
                         "keyword.other.instruction"
                     ],
                     "settings": {
