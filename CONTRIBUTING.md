@@ -6,13 +6,13 @@ Machine-assisted contributions must be both endorsed and thoroughly reviewed by 
 
 # Development and Building
 
-This project is making use of [Bun](https://bun.sh/docs/pm/cli/install) for package management.
+This project is making use of [PNPM](https://pnpm.io) for package management.
 
-First you will need to run `bun install` from the project root.
+First you will need to run `pnpm install` from the project root.
 
-To build the VS Code Extension VSIX package, you will need to have installed `vsce` (`bun install -g @vscode/vsce`) and then should do one of the following:
+To build the VS Code Extension VSIX package, you will need to have installed `vsce` (`pnpm install -g @vscode/vsce`) and then should do one of the following:
 
-1. `bun run package <version>`
+1. `pnpm package <version>`
 
 2. `vsce package <version> [--pre-release] --no-git-tag-version`
 
