@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.12.1
+
+Date: 2026-09-19
+
+### Fixed
+- Fixed missing support for Pools in resource assignments and resource usage expressions
+- Fixed conflict between settings keys that start with `pool` and Pools used on the LHS of an `=`
+- Fixed enum values used for the `bind_flags` key not being highlighted
+
+### Added
+- Added support for the new `[Input]` section introduced with XXMI v1.1.7
+- Added support for new assignment statements introduced with XXMI v1.0.3
+- Added support for new `locked` keyword introduced with XXMI v1.0.3
+- Added support for new builtin hlsl-style functions introduced with XXMI v1.0.3
+- Added support for global variable declarations to be initialized with static operational expressions
+- Added support for new enum literal values accepted in operational expressions
+- Added support for pooled variables e.g. `$Pool\namespace\Foo[$index]`
+- Added support for property access method calls, e.g. `ResourceBar->Foo($value)`
+- Added support for new INI Runtime Parameters
+- Added support for hex and binary literals
+
+### Changed
+- Changed instances of static values being accepted into static operational expressions
+- Refactored instruction statement logic to be far more simplified and easier to maintain
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.11.1...v0.12.1
+
 ## v0.11.1
 
 Date: 2026-06-29
