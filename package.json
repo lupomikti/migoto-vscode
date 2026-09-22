@@ -1,7 +1,7 @@
 {
   "name": "migoto-ini",
   "displayName": "3DMigoto INI",
-  "description": "Extension for working with .ini files used by 3DMigoto.",
+  "description": "Extension for working with .ini files used by 3DMigoto - primarily focusing on work for the XXMI fork.",
   "author": {
     "name": "LupoMikti",
     "url": "https://github.com/lupomikti"
@@ -78,6 +78,7 @@
     "typescript": "^5.6.2"
   },
   "scripts": {
-    "package": "vsce package --no-git-tag-version"
+    "package": "vsce package --no-git-tag-version --follow-symlinks",
+    "publish": "vsce publish -i"
   }
 }
