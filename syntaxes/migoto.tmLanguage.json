@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.schemastore.org/tmlanguage.json",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scopeName": "source.migoto",
   "name": "migoto",
   "fileTypes": [
@@ -1009,7 +1009,7 @@
     },
     "local-declaration": {
       "name": "meta.statement.declaration.local.migoto",
-      "match": "(?xi)\n^[ \\t]*\n(local)\\s+\n(\\$\\w+)\n\\s*\n(?:\n  (=) \\s* # assignment operator, surrounded by optional whitespace\n  ([^\\r\\n]+) # RHS value\n)? # Assignment operator and RHS-value are optional, e.g. `local $variable` on a line by itself\n\\s*\n(?:$|\\n)",
+      "match": "(?xi)\n^[ \\t]*\n(local) \\s+ (\\$\\w+)\n\\s*\n(?:\n  (=) \\s*\n  ([^\\r\\n]+)\n)?\n\\s*\n(?:$|\\n)",
       "captures": {
         "1": {
           "name": "storage.modifier.migoto"
@@ -1095,7 +1095,7 @@
               "patterns": [
                 {
                   "name": "meta.keyword.proxy-modifier keyword.other.functional.migoto",
-                  "match": "(?i)ref(?:erence)?"
+                  "match": "(?i)\\bref(?:erence)?\\b"
                 },
                 {
                   "include": "#callable-commandlist"
@@ -1183,7 +1183,7 @@
                 "3": {
                   "patterns": [
                     {
-                      "include": "#operand"
+                      "include": "#operational-expression"
                     },
                     {
                       "include": "#callable-commandlist"
@@ -1211,7 +1211,7 @@
                 "3": {
                   "patterns": [
                     {
-                      "name": "meta.function-call variable.other.function.migoto",
+                      "name": "variable.other.function.migoto",
                       "match": "(?i)(Preset)?(\\\\[^=$\\r\\n]+\\\\)?([^=$,\\r\\n]+)",
                       "captures": {
                         "1": {
@@ -1614,7 +1614,7 @@
     },
     "named-variable": {
       "name": "meta.variable.named",
-      "match": "(?xi)\n(\\$)\n(?! Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)\n(?:\n  ([a-z_]\\w+|[a-z]) |\n  (\\\\[^=$\\r\\n]+\\\\) ([a-z_]\\w+|[a-z_])\n)",
+      "match": "(?xi)\n(\\$)\n(?! Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)\n(?:\n  ([a-z_]\\w+|[a-z]) |\n  (\\\\[^=$\\r\\n]+\\\\) ([a-z_]\\w+|[a-z_])\n)",
       "captures": {
         "1": {
           "name": "punctuation.definition.variable.migoto"
@@ -1636,7 +1636,7 @@
     },
     "pooled-variable": {
       "name": "meta.variable.pooled",
-      "match": "(?xi)\n(\\$)\n( Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)(?!\\\\)",
+      "match": "(?xi)\n(\\$)\n( Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)(?!\\\\)",
       "captures": {
         "1": {
           "name": "punctuation.definition.variable.migoto"
@@ -1698,7 +1698,7 @@
     },
     "custom-resource": {
       "name": "meta.variable.custom-resource",
-      "match": "\\b(?i)(Resource)(\\\\[^=$\\r\\n]+\\\\)?([^/&!>|<( )$=,\\[\\]\\r\\n]+)(?!\\\\)",
+      "match": "\\b(?i)(Resource)(\\\\[^=$\\r\\n]+\\\\)?([^-/&!>|<( )$=,\\[\\]\\r\\n]+)(?!\\\\)",
       "captures": {
         "1": {
           "name": "entity.name.tag.migoto"
@@ -1721,7 +1721,7 @@
     },
     "resource-pool-base": {
       "name": "meta.variable.resource-pool",
-      "match": "\\b(?xi)\n(Pool)\n(\\\\[^=$\\r\\n]+\\\\)?\n([^/&!>|<( )$=,\\[\\]\\r\\n]+)\n(?!\\\\)",
+      "match": "\\b(?xi)\n(Pool)\n(\\\\[^=$\\r\\n]+\\\\)?\n([^-/&!>|<( )$=,\\[\\]\\r\\n]+)\n(?!\\\\)",
       "captures": {
         "1": {
           "name": "entity.name.tag.migoto"
@@ -1744,7 +1744,7 @@
     },
     "resource-pool": {
       "name": "meta.variable.resource-pool",
-      "match": "\\b(?xi)\n( Pool (?:\\\\[^=$\\r\\n]+\\\\)? (?: [^/&!>|<( )$=,\\[\\]\\r\\n]+ ) )\n( \\[ [^\\r\\n\\[\\]]+ \\] )\n(?!\\\\)",
+      "match": "\\b(?xi)\n( Pool (?:\\\\[^=$\\r\\n]+\\\\)? (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ ) )\n( \\[ [^\\r\\n\\[\\]]+ \\] )\n(?!\\\\)",
       "captures": {
         "1": {
           "patterns": [
@@ -1760,17 +1760,17 @@
               "match": "(?i)(\\[)(.+)(\\])",
               "captures": {
                 "1": {
-                  "name": "punctuation.delimiter.bracket.migoto"
+                  "name": "punctuation.bracket.begin.migoto"
                 },
                 "2": {
                   "patterns": [
                     {
-                      "include": "#operational-expression"
+                      "include": "#static-operational-expression"
                     }
                   ]
                 },
                 "3": {
-                  "name": "punctuation.delimiter.bracket.migoto"
+                  "name": "punctuation.bracket.end.migoto"
                 }
               }
             }
@@ -1805,7 +1805,7 @@
     },
     "resource-identifier": {
       "name": "entity.name.class.migoto",
-      "match": "[^/&!>|<( )$=,\\[\\]\\r\\n]+"
+      "match": "[^-/&!>|<( )$=,\\[\\]\\r\\n]+"
     },
     "ini-parameter": {
       "name": "variable.parameter.migoto",
