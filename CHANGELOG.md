@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.12.2
+
+Date: 2026-09-23
+
+### Fixed
+- Fixed issues related to the detection of custom resource and resource pool names
+- Fixed index expressions allowing full operational expressions instead of just static operational expressions
+- Fixed instructions only taking operands instead of full operational expressions
+
+### Added
+
+### Changed
+- Updated the README a bit
+- Adjusted a few scope names for clarity and alignment with other editor extensions
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.12.1...v0.12.2
+
 ## v0.12.1
 
 Date: 2026-09-19
@@ -31,6 +48,7 @@ Date: 2026-09-19
 ### Changed
 - Changed instances of static values being accepted into static operational expressions
 - Refactored instruction statement logic to be far more simplified and easier to maintain
+- Swapped to using PNPM for package management instead of Bun
 
 **Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.11.1...v0.12.1
 
