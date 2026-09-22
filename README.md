@@ -1,7 +1,11 @@
 ## What is this project?
-Inspired by the work done in the [GIMI_ini_extension](https://github.com/lewis252310/GIMI_ini_Extension) repo, this extension is part of a larger project to provide multi-editor syntax highlighting for .ini files used by the program 3DMigoto, which have much more extensive syntax than the typical header + key-value pair structure of normal .ini files. The reason for the project's existence is then to improve upon that work by using more standardized scope names such that the highlighting will work with more themes out-of-the-box and will not need to provide its own theme. This extension also creates a grammar structure much more conducive to additions and modifications. While that original repo also provides additional functionality beyond the highlighting, this one currently only provides said highlighting with plans to reproduce those programmatic features in the future via an LSP language server and Tree Sitter parsing.
+Inspired by the work done in the [GIMI_ini_extension](https://github.com/lewis252310/GIMI_ini_Extension) repo, this extension is part of a larger project to provide multi-editor syntax highlighting for .ini files used by the program 3DMigoto, which have much more extensive syntax than the typical header + key-value pair structure of normal .ini files. It focuses mainly on support for the XXMI fork, but contributions for any implementation are welcome.
 
-The Tree-sitter parser project is live and can be found at [tree-sitter-migoto](https://github.com/lupomikti/tree-sitter-migoto).
+The reason for the project's existence is then to improve upon the prior work by using more standardized scope names such that the highlighting will work with more themes out-of-the-box and will not need to provide its own theme. This extension also creates a grammar structure much more conducive to additions and modifications.
+
+While that original repo also provides additional functionality beyond the highlighting, this one currently only provides said highlighting with plans to reproduce those programmatic features in the future via an LSP language server.
+
+There is also a tree-sitter implementation used to provide functionality in other editors. The project can be found at [tree-sitter-migoto](https://github.com/lupomikti/tree-sitter-migoto).
 
 ## Current Features
 
@@ -18,13 +22,18 @@ Not all scopes are commonly styled by themes. For example, a lot of themes do no
 
 - `variable.other.readwrite`
 - `punctuation.definition.variable`
-- `variable.language.shader-slot.migoto`, `variable.language.buffer.migoto`, `variable.language.resource-identifier.migoto`, `variable.language.shader-identifier.migoto`, `constant.language.override-parameter.migoto`, `variable.parameter.migoto`
+- `variable.language.*.migoto`, `variable.parameter.migoto`
 - `punctuation.section.embedded`
-- `constant.other.path.migoto`, `constant.other.file.migoto` (I don't color these, but I do underline them)
-- `entity.name.namespace.migoto` (themes usually style this one, I just don't like the color chosen with my theme next to the variable color, so I changed it)
-- `entity.name.section.group-title.migoto` (after the change from `.ini.3dm` to `.migoto`, section titles no longer piggy-backed off of the default INI file coloring, so I needed to make a rule for it)
-- `keyword.other.instruction` (originally just to make them bold, now they are colored quite differently too)
-- `variable.object.property` (I believe a lot of themes make this default text colored, so I changed it)
+- `constant.other.path.migoto`, `constant.other.file.migoto`
+  (I don't color these, but I do underline them)
+- `entity.name.namespace.migoto`
+  (themes usually style this one, I just don't like the color chosen with my theme next to the variable color, so I changed it)
+- `entity.name.section.group-title.migoto`
+  (after the change from `.ini.3dm` to `.migoto`, section titles no longer piggy-backed off of the default INI file coloring, so I needed to make a rule for it)
+- `keyword.other.instruction`
+  (originally just to make them bold, now they are colored quite differently too)
+- `variable.object.property`
+  (I believe a lot of themes make this default text colored, so I changed it)
 
 Here's how to edit a theme via your `settings.json`:
 
