@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.schemastore.org/tmlanguage.json",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "scopeName": "source.migoto",
   "name": "migoto",
   "fileTypes": [
@@ -115,113 +115,16 @@
     "section": {
       "patterns": [
         {
-          "include": "#special-section"
+          "include": "#pool-section"
+        },
+        {
+          "include": "#shader-regex-section"
         },
         {
           "include": "#setting-section"
         },
         {
           "include": "#commandlist-section"
-        }
-      ]
-    },
-    "special-section": {
-      "patterns": [
-        {
-          "include": "#constants-section"
-        },
-        {
-          "include": "#present-section"
-        },
-        {
-          "include": "#keybind-containing-section"
-        },
-        {
-          "include": "#pool-section"
-        },
-        {
-          "include": "#key-section"
-        },
-        {
-          "include": "#preset-section"
-        },
-        {
-          "include": "#shader-regex-section"
-        }
-      ]
-    },
-    "constants-section": {
-      "name": "meta.section.constants.migoto",
-      "begin": "(?i)(?:^[ \\t]*(\\[)\\s*(Constants)\\s*(\\])[ \\t]*$)",
-      "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.entity.begin.migoto"
-        },
-        "2": {
-          "name": "entity.name.constructor.migoto"
-        },
-        "3": {
-          "name": "punctuation.definition.entity.end.migoto"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#comment"
-        },
-        {
-          "include": "#global-declaration"
-        },
-        {
-          "include": "#primary-statement"
-        }
-      ]
-    },
-    "present-section": {
-      "name": "meta.section.present.migoto",
-      "begin": "(?i)(?:^[ \\t]*(\\[)\\s*(Present)\\s*(\\])[ \\t]*$)",
-      "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.entity.begin.migoto"
-        },
-        "2": {
-          "name": "entity.name.function.migoto"
-        },
-        "3": {
-          "name": "punctuation.definition.entity.end.migoto"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#comment"
-        },
-        {
-          "include": "#primary-statement"
-        }
-      ]
-    },
-    "keybind-containing-section": {
-      "name": "meta.section.keybind-containing.migoto",
-      "begin": "(?i)(?:^[ \\t]*(\\[)\\s*(Hunting|Input)\\s*(\\])[ \\t]*$)",
-      "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.entity.begin.migoto"
-        },
-        "2": {
-          "name": "entity.name.section.group-title.migoto"
-        },
-        "3": {
-          "name": "punctuation.definition.entity.end.migoto"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#setting-statement"
-        },
-        {
-          "include": "#comment"
         }
       ]
     },
@@ -246,7 +149,7 @@
         },
         {
           "name": "meta.statement.setting.migoto",
-          "match": "(?xi)\n    ^[ \\t]*\n    (pool_\\w+\\b) # a key that starts with `pool`\n    \\s* (=) \\s* # kvp separator surrounded by optional whitespace\n    (?: ([^\"$\\\\/\\s\\r\\n]+) | ([^$\\s\\r\\n]+) | ([^\\r\\n]+) )  # match anything on the right-hand-side\n    (?:$|\\n)",
+          "match": "(?xi)\n    ^[ \\t]*\n    (pool_\\w+\\b) # a key that starts with `pool`\n    \\s* (=) \\s*  # kvp separator surrounded by optional whitespace\n    ([^\\r\\n]+)   # match anything on the right-hand-side\n    (?:$|\\n)",
           "captures": {
             "1": {
               "patterns": [
@@ -261,54 +164,25 @@
             "3": {
               "patterns": [
                 {
-                  "include": "#resource-type"
+                  "include": "#static-operational-expression"
                 },
                 {
-                  "include": "#constant"
+                  "include": "#resource-type"
                 },
                 {
                   "include": "#boolean-value"
                 },
                 {
-                  "include": "#path-value"
-                },
-                {
-                  "include": "#fixed-value"
-                }
-              ]
-            },
-            "4": {
-              "patterns": [
-                {
                   "include": "#string"
                 },
                 {
                   "include": "#path-value"
-                },
-                {
-                  "include": "#fixed-value"
-                }
-              ]
-            },
-            "5": {
-              "patterns": [
-                {
-                  "include": "#static-operational-expression"
-                },
-                {
-                  "include": "#string"
-                },
-                {
-                  "include": "#path-value"
-                },
-                {
-                  "include": "#list-expression"
                 },
                 {
                   "include": "#fuzzy-match-expression"
                 },
                 {
-                  "include": "#fixed-value"
+                  "include": "#fixed-value-option-list"
                 }
               ]
             }
@@ -316,285 +190,6 @@
         },
         {
           "include": "#setting-statement"
-        }
-      ]
-    },
-    "key-section": {
-      "name": "meta.section.key.migoto",
-      "begin": "(?i)(?:^[ \\t]*(\\[)\\s*(Key.+)\\s*(\\])[ \\t]*$)",
-      "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.entity.begin.migoto"
-        },
-        "2": {
-          "name": "entity.name.section.group-title.migoto"
-        },
-        "3": {
-          "name": "punctuation.definition.entity.end.migoto"
-        }
-      },
-      "patterns": [
-        {
-          "name": "meta.statement.setting.migoto",
-          "match": "(?xi)\n^[ \\t]*\n(?!\\b(?:\n  run|condition|key|back|\n  vb\\d|ib|(?:[rf]_)?bb|s?o\\d|od|\n  (?<!$)[xyzw]\\d{0,3}|\n  this|(?:ini|stereo)params|cursor_(?:mask|color)\n)\\b)                 # keywords and variables that are not keys, defined in-lieu of lexical precedence\n([a-z0-9]\\w+)        # fixed_value\n\\s*(=)\\s*([^\\r\\n]+)  # = fixed_value | boolean_value | static_value ; can be a list of each, or mixed. LSP will handle correctness\n",
-          "captures": {
-            "1": {
-              "name": "meta.keyword.key keyword.other.migoto"
-            },
-            "2": {
-              "name": "punctuation.separator.key-value.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#fixed-value"
-                },
-                {
-                  "include": "#boolean-value"
-                },
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.setting.migoto",
-          "match": "(?i)^[ \\t]*(key|back)\\s*(=)\\s*([^\\r\\n]+)",
-          "captures": {
-            "1": {
-              "name": "meta.keyword.key keyword.other.migoto"
-            },
-            "2": {
-              "name": "punctuation.separator.key-value.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#keybinding-modifier"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.instruction.migoto",
-          "match": "(?i)^[ \\t]*(run)\\s*(=)\\s*([^\\r\\n]+)(?:$|\\n)",
-          "captures": {
-            "1": {
-              "name": "meta.function-call.instruction support.function.builtin.migoto"
-            },
-            "2": {
-              "name": "keyword.operator.execution.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#callable-commandlist"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.condition.migoto",
-          "match": "(?i)^[ \\t]*(condition)\\s*(=)\\s*([^\\r\\n]+)(?:$|\\n)",
-          "captures": {
-            "1": {
-              "name": "meta.keyword.key keyword.other.condition.migoto"
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#operational-expression"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(\\b[xyzw]\\d{0,3}\\b) # an ini parameter\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # RHS value, here must be a static value\n(?:$|\\n)",
-          "captures": {
-            "1": {
-              "patterns": [
-                {
-                  "include": "#ini-parameter"
-                }
-              ]
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(\\$(?:\\\\.+\\\\)?\\w+\\b) # a $ variable\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # RHS value, here must be a static value\n(?:$|\\n)",
-          "captures": {
-            "1": {
-              "patterns": [
-                {
-                  "include": "#named-variable"
-                }
-              ]
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "include": "#comment"
-        }
-      ]
-    },
-    "preset-section": {
-      "name": "meta.section.preset.migoto",
-      "begin": "(?i)(?:^[ \\t]*(\\[)\\s*(Preset.+)\\s*(\\])[ \\t]*$)",
-      "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.entity.begin.migoto"
-        },
-        "2": {
-          "name": "entity.name.section.group-title.migoto"
-        },
-        "3": {
-          "name": "punctuation.definition.entity.end.migoto"
-        }
-      },
-      "patterns": [
-        {
-          "name": "meta.statement.setting.migoto",
-          "match": "(?xi)\n^[ \\t]*\n(?!\\b(?:\n  run|condition|\n  vb\\d|ib|(?:[rf]_)?bb|s?o\\d|od|\n  (?<!$)[xyzw]\\d{0,3}|\n  this|(?:ini|stereo)params|cursor_(?:mask|color)\n)\\b)                 # keywords and variables that are not keys, defined in-lieu of lexical precedence\n([a-z0-9]\\w+)        # fixed_value\n\\s*(=)\\s*([^,\\r\\n]+)  # = fixed_value | boolean_value | static_value\n",
-          "captures": {
-            "1": {
-              "name": "meta.keyword.key keyword.other.migoto"
-            },
-            "2": {
-              "name": "punctuation.separator.key-value.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#fixed-value"
-                },
-                {
-                  "include": "#boolean-value"
-                },
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.instruction.migoto",
-          "match": "(?i)^[ \\t]*(run)\\s*(=)\\s*([^,\\r\\n]+)(?:$|\\n)",
-          "captures": {
-            "1": {
-              "name": "meta.function-call.instruction support.function.builtin.migoto"
-            },
-            "2": {
-              "name": "keyword.operator.execution.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#callable-commandlist"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.condition.migoto",
-          "match": "(?i)^[ \\t]*(condition)\\s*(=)\\s*([^,\\r\\n]+)(?:$|\\n)",
-          "captures": {
-            "1": {
-              "name": "meta.keyword.key keyword.other.condition.migoto"
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#operational-expression"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(\\b[xyzw]\\d{0,3}\\b) # an ini parameter\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^,\\r\\n]+) # RHS value, here must be a static value\n(?:$|\\n)",
-          "captures": {
-            "1": {
-              "patterns": [
-                {
-                  "include": "#ini-parameter"
-                }
-              ]
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(\\$(?:\\\\.+\\\\)?\\w+\\b) # a $ variable\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^,\\r\\n]+) # RHS value, here must be a static value\n(?:$|\\n)",
-          "captures": {
-            "1": {
-              "patterns": [
-                {
-                  "include": "#named-variable"
-                }
-              ]
-            },
-            "2": {
-              "name": "keyword.operator.assignment.migoto"
-            },
-            "3": {
-              "patterns": [
-                {
-                  "include": "#static-value"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "include": "#comment"
         }
       ]
     },
@@ -736,7 +331,7 @@
     },
     "setting-section": {
       "name": "meta.section.settings.migoto",
-      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (Logging|System|Device|Stereo|Rendering|Profile|ConvergenceMap|Loader|Resource.+|Include.*) # capture group 2, section header\n  [ \\t]*\n  (\\]) # capture group 3, closing bracket\n[ \\t]*$\n)",
+      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (\n    Hunting|Input|Logging|System|Device|Stereo|\n    Rendering|Profile|ConvergenceMap|Loader|\n    (?:Resource|Key|Preset).+|Include.*\n  ) # capture group 2, section header\n  [ \\t]*\n  (\\]) # capture group 3, closing bracket\n[ \\t]*$\n)",
       "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
       "beginCaptures": {
         "1": {
@@ -751,16 +346,13 @@
       },
       "patterns": [
         {
-          "include": "#comment"
-        },
-        {
-          "include": "#setting-statement"
+          "include": "#section-body"
         }
       ]
     },
     "commandlist-section": {
       "name": "meta.section.commandlists.migoto",
-      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (?:\n    ( Clear(?:RenderTarget|DepthStencil)View | ClearUnorderedAccessView(?:Uint|Float) | (?: TextureOverride | ShaderOverride ).+ ) |\n    ( (?:BuiltIn)?(?:CustomShader|CommandList).+ )\n  )    # capture group 2 & 3, section header\n  [ \\t]*\n  (\\]) # capture group 4, closing bracket\n[ \\t]*$\n)",
+      "begin": "(?xi)(?:\n^[ \\t]*\n  (\\[) # capture group 1, opening bracket\n  [ \\t]*\n  (?:\n    ( Clear(?:RenderTarget|DepthStencil)View |\n      ClearUnorderedAccessView(?:Uint|Float) |\n      (?: TextureOverride | ShaderOverride ).+ ) |\n    ( Present | (?:BuiltIn)?(?:CustomShader|CommandList).+ ) |\n    ( Constants )\n  )    # capture group 2, 3, & 4 section header\n  [ \\t]*\n  (\\]) # capture group 5, closing bracket\n[ \\t]*$\n)",
       "end": "(?i)(?=^[ \\t]*\\[.+\\][ \\t]*$|\\z)",
       "beginCaptures": {
         "1": {
@@ -773,18 +365,31 @@
           "name": "entity.name.function.migoto"
         },
         "4": {
+          "name": "entity.name.constructor.migoto"
+        },
+        "5": {
           "name": "punctuation.definition.entity.end.migoto"
         }
       },
       "patterns": [
         {
-          "include": "#comment"
-        },
+          "include": "#section-body"
+        }
+      ]
+    },
+    "section-body": {
+      "patterns": [
         {
           "include": "#setting-statement"
         },
         {
+          "include": "#global-declaration"
+        },
+        {
           "include": "#primary-statement"
+        },
+        {
+          "include": "#comment"
         }
       ]
     },
@@ -792,7 +397,7 @@
       "patterns": [
         {
           "name": "meta.statement.setting.migoto",
-          "match": "(?xi)\n^[ \\t]*\n(?!\\b(?:\n  hash|[vhdgpc]s|\n  (?:override|cache|storage)_directory|include(?:_recursive)?|exclude_recursive|\n  (?:done_|toggle_)hunting|next_marking_mode|mark_snapshot|\n  (?:previous|next|mark)_(?:pixel|vertex|compute|geometry|domain|hull)shader|\n  (?:previous|next|mark)_(?:index|vertex)buffer|(?:previous|next)_(?:index|vertex)buffer_slot|\n  (?:previous|next|mark)_rendertarget|\n  take_screenshot|reload_fixes|(?:reload|wipe_user)_config|show_original|\n  monitor_performance|freeze_performance_monitor|tune[123]_(?:up|down)|\n  analyse_frame|toggle_full_screen|force_full_screen_on_key|toggle_input|\n  run|checktextureoverride|(?:exclude_)?preset|handling|clear|special|dump|store|\n  draw(?:indexed|instanced|indexedinstanced|instancedindirect|indexedinstancedindirect)?|dispatch(?:indirect)?|\n  vb\\d|ib|(?:[rf]_)?bb|s?o\\d|od|\n  (?<!$)[xyzw]\\d{0,3}|\n  this|(?:ini|stereo)params|cursor_(?:mask|color)|\n  (?:Resource|Pool).+\n)\\b)        # ^ exclusions to resolve conflicts or handle special cases\n([\\w\\[\\]]+) # a word-like that is not in the preceding list and includes brackets for blend[N]/blend_factor[N] keys\n\\s* (=) \\s* # kvp separator surrounded by optional whitespace\n(?: ([^\"$\\\\/\\s\\r\\n]+) | ([^$\\s\\r\\n]+) | ([^\\r\\n]+) )  # match anything on the right-hand-side\n(?:$|\\n)",
+          "match": "(?xi)\n^[ \\t]*\n(?!\\b(?:\n  key|back|hash|[vhdgpc]s|(?:blend|alpha)(?:\\[\\d+\\])?|\n  (?:override|cache|storage)_directory|include(?:_recursive)?|exclude_recursive|\n  (?:done_|toggle_)hunting|next_marking_mode|mark_snapshot|\n  (?:previous|next|mark)_(?:pixel|vertex|compute|geometry|domain|hull)shader|\n  (?:previous|next|mark)_(?:index|vertex)buffer|(?:previous|next)_(?:index|vertex)buffer_slot|\n  (?:previous|next|mark)_rendertarget|\n  take_screenshot|reload_fixes|(?:reload|wipe_user)_config|show_original|\n  monitor_performance|freeze_performance_monitor|tune[123]_(?:up|down)|\n  analyse_frame|toggle_full_screen|force_full_screen_on_key|toggle_input|\n  run|checktextureoverride|(?:exclude_)?preset|handling|clear|special|dump|store|\n  draw(?:indexed|instanced|indexedinstanced|instancedindirect|indexedinstancedindirect)?|dispatch(?:indirect)?|\n  vb\\d|ib|(?:[rf]_)?bb|s?o\\d|od|\n  (?<!$)[xyzw]\\d{0,3}|\n  this|(?:ini|stereo)params|cursor_(?:mask|color)|\n  (?:Resource|Pool).+\n)\\b)        # ^ exclusions to resolve conflicts or handle special cases\n([\\w\\[\\]]+) # a word-like that is not in the preceding list and includes brackets for blend[N]/blend_factor[N] keys\n\\s* (=) \\s* # kvp separator surrounded by optional whitespace\n([^\\r\\n]+)  # match anything on the right-hand-side\n(?:$|\\n)",
           "captures": {
             "1": {
               "patterns": [
@@ -807,54 +412,25 @@
             "3": {
               "patterns": [
                 {
-                  "include": "#resource-type"
+                  "include": "#static-operational-expression"
                 },
                 {
-                  "include": "#constant"
+                  "include": "#resource-type"
                 },
                 {
                   "include": "#boolean-value"
                 },
                 {
-                  "include": "#path-value"
-                },
-                {
-                  "include": "#fixed-value"
-                }
-              ]
-            },
-            "4": {
-              "patterns": [
-                {
                   "include": "#string"
                 },
                 {
                   "include": "#path-value"
-                },
-                {
-                  "include": "#fixed-value"
-                }
-              ]
-            },
-            "5": {
-              "patterns": [
-                {
-                  "include": "#static-operational-expression"
-                },
-                {
-                  "include": "#string"
-                },
-                {
-                  "include": "#path-value"
-                },
-                {
-                  "include": "#list-expression"
                 },
                 {
                   "include": "#fuzzy-match-expression"
                 },
                 {
-                  "include": "#fixed-value"
+                  "include": "#fixed-value-option-list"
                 }
               ]
             }
@@ -897,7 +473,7 @@
         },
         {
           "name": "meta.statement.setting.migoto",
-          "match": "(?xi)\n^[ \\t]*\n\\b(\n  (?:done_|toggle_)hunting | next_marking_mode | mark_snapshot |\n  (?:previous|next|mark)_(?:pixel|vertex|compute|geometry|domain|hull)shader |\n  (?:previous|next|mark)_(?:index|vertex)buffer | (?:previous|next)_(?:index|vertex)buffer_slot |\n  (?:previous|next|mark)_rendertarget |\n  take_screenshot | reload_fixes | (?:reload|wipe_user)_config | show_original |\n  monitor_performance | freeze_performance_monitor | tune[123]_(?:up|down) |\n  analyse_frame | toggle_full_screen | force_full_screen_on_key | toggle_input\n)\\b         # ^^^ keys that take KeyBinding as a value\n\\s* (=) \\s* # kvp separator surrounded by optional whitespace\n([^\\r\\n]+)  # RHS value, open to accommodate symbols\n[ \\t]*\n(?:$|\\n)",
+          "match": "(?xi)\n^[ \\t]*\n\\b(\n  (?:done_|toggle_)hunting | next_marking_mode | mark_snapshot |\n  (?:previous|next|mark)_(?:pixel|vertex|compute|geometry|domain|hull)shader |\n  (?:previous|next|mark)_(?:index|vertex)buffer | (?:previous|next)_(?:index|vertex)buffer_slot |\n  (?:previous|next|mark)_rendertarget | key | back |\n  take_screenshot | reload_fixes | (?:reload|wipe_user)_config | show_original |\n  monitor_performance | freeze_performance_monitor | tune[123]_(?:up|down) |\n  analyse_frame | toggle_full_screen | force_full_screen_on_key | toggle_input\n)\\b         # ^^^ keys that take KeyBinding as a value\n\\s* (=) \\s* # kvp separator surrounded by optional whitespace\n([^\\r\\n]+)  # RHS value, open to accommodate symbols\n[ \\t]*\n(?:$|\\n)",
           "captures": {
             "1": {
               "name": "meta.keyword.binding.key keyword.other.migoto"
@@ -909,6 +485,28 @@
               "patterns": [
                 {
                   "include": "#keybinding-modifier"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "meta.statement.setting.migoto",
+          "match": "(?xi)\n^[ \\t]*\n\\b( (?:blend | alpha) (?:\\[(\\d+)\\])? )\\b\n\\s* (=) \\s*\n([^\\r\\n]+)\n[ \\t]*\n(?:$|\\n)",
+          "captures": {
+            "1": {
+              "name": "meta.keyword.blend-state.key keyword.other.migoto"
+            },
+            "2": {
+              "name": "constant.numeric.migoto"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.migoto"
+            },
+            "4": {
+              "patterns": [
+                {
+                  "include": "#blend-expression"
                 }
               ]
             }
@@ -1248,39 +846,6 @@
         }
       }
     },
-    "list-expression": {
-      "patterns": [
-        {
-          "include": "#resource-data-array"
-        },
-        {
-          "include": "#blend-expression"
-        },
-        {
-          "include": "#fixed-value-option-list"
-        }
-      ]
-    },
-    "resource-data-array": {
-      "name": "meta.expression.data-array",
-      "match": "(?xi)\n\\b(\\w+)?\\b # optional Resource Format specifier (DXGI Format)\n\\s*\n([-+\\d.\\s]+) # content that should be a list of numbers (ints or floats)\n\\s*$\n",
-      "captures": {
-        "1": {
-          "patterns": [
-            {
-              "include": "#dxgi-format"
-            }
-          ]
-        },
-        "2": {
-          "patterns": [
-            {
-              "include": "#constant-list"
-            }
-          ]
-        }
-      }
-    },
     "blend-expression": {
       "name": "meta.expression.blend-state.migoto",
       "match": "(?i)\\s*\\b(?:(\\w+)\\s+(\\w+)\\s+(\\w+)|(disable))\\s*$",
@@ -1316,7 +881,7 @@
     },
     "fuzzy-match-expression": {
       "name": "meta.expression.fuzzy-match.migoto",
-      "match": "(?xi)\n([><]=?|[!=])? # optional operator\n\\s*\n(?:\n  \\b (\\d+) \\b | # number (int)\n  (?:\n    \\b ((?:res_)?(?:width|height)|depth|array) \\b # field name\n    \\s*\n    (?:\n      (?:(\\*)\\s*\\b((?:res_)?(?:width|height)|depth|array)\\b) |\n      (?:(\\*)\\s*\\b(\\d+)\\b)? # integer multiplicand\n      \\s*\n      (?:(/)\\s*\\b(\\d+)\\b)? # integer divisor\n    )\n  ) # field expression\n)\n\\s*$\n",
+      "match": "(?xi)\n(?:\n  ([><]=?|[!=]) \\s* \\b (\\d+) \\b | # an integer w/ operator\n  ([><]=?|[!=])? # optional operator\n  \\s*\n  (?:\n    \\b ((?:res_)?(?:width|height)|depth|array) \\b # field name\n    \\s*\n    (?:\n      (?:(\\*)\\s*\\b((?:res_)?(?:width|height)|depth|array)\\b) |\n      (?:(\\*)\\s*\\b(\\d+)\\b)? # integer multiplicand\n      \\s*\n      (?:(/)\\s*\\b(\\d+)\\b)? # integer divisor\n    )\n  ) # field expression\n)\n\\s*$\n",
       "captures": {
         "1": {
           "name": "keyword.operator.comparison.migoto"
@@ -1325,24 +890,27 @@
           "name": "constant.numeric.migoto"
         },
         "3": {
-          "name": "meta.match-field constant.language.migoto"
+          "name": "keyword.operator.comparison.migoto"
         },
         "4": {
-          "name": "keyword.operator.math.migoto"
-        },
-        "5": {
           "name": "meta.match-field constant.language.migoto"
         },
-        "6": {
+        "5": {
           "name": "keyword.operator.math.migoto"
+        },
+        "6": {
+          "name": "meta.match-field constant.language.migoto"
         },
         "7": {
-          "name": "constant.numeric.migoto"
-        },
-        "8": {
           "name": "keyword.operator.math.migoto"
         },
+        "8": {
+          "name": "constant.numeric.migoto"
+        },
         "9": {
+          "name": "keyword.operator.math.migoto"
+        },
+        "10": {
           "name": "constant.numeric.migoto"
         }
       }
@@ -1365,7 +933,7 @@
     },
     "resource-usage-modifier": {
       "name": "meta.keyword.resource-usage-modifier keyword.other.functional.migoto",
-      "match": "(?i)\\b(copy(?:_desc(?:ription)?)?|ref(?:erence)?|raw|stereo|mono|stereo2mono|set_viewport|no_view_cache|resolve_msaa|unless_null)\\b"
+      "match": "(?xi)\\b(\n  copy(?:_desc(?:ription)?)?|\n  ref(?:erence)?|\n  raw|stereo|mono|stereo2mono|\n  set_viewport|no_view_cache|\n  resolve_msaa|unless_null\n)\\b"
     },
     "operational-expression": {
       "patterns": [
@@ -1811,65 +1379,18 @@
       "name": "variable.parameter.migoto",
       "match": "(?i)\\b(?:(?<!$)[xyzw]\\d{0,3})\\b"
     },
-    "constant-list": {
-      "match": "(?i)(?:([-+\\d.]+) +([-+\\d.]+)(?: +([-+\\d.]+))?$|([-+\\d.]+) +([-+\\d.]+))",
-      "name": "meta.expression.constant-list.migoto",
-      "captures": {
-        "1": {
-          "patterns": [
-            {
-              "include": "#constant"
-            }
-          ]
-        },
-        "2": {
-          "patterns": [
-            {
-              "include": "#constant"
-            }
-          ]
-        },
-        "3": {
-          "patterns": [
-            {
-              "include": "#constant"
-            }
-          ]
-        },
-        "4": {
-          "patterns": [
-            {
-              "include": "#constant"
-            }
-          ]
-        },
-        "5": {
-          "patterns": [
-            {
-              "include": "#constant"
-            }
-          ]
-        }
-      }
-    },
     "fixed-value-option-list": {
-      "match": "(?i)\\b([\\w\\s]+)",
-      "name": "meta.expression.fixed-value-option-list.migoto",
-      "captures": {
-        "1": {
-          "patterns": [
-            {
-              "include": "#marking-action-opt"
-            },
-            {
-              "include": "#frame-analysis-opt"
-            },
-            {
-              "include": "#fixed-value"
-            }
-          ]
+      "patterns": [
+        {
+          "include": "#marking-action-opt"
+        },
+        {
+          "include": "#frame-analysis-opt"
+        },
+        {
+          "include": "#fixed-value"
         }
-      }
+      ]
     },
     "keybinding-modifier": {
       "name": "meta.keyword.key-binding constant.language.modifier-key.migoto",
@@ -1887,15 +1408,15 @@
       "patterns": [
         {
           "name": "constant.language.numeric.migoto",
-          "match": "\\b(?i)(?:inf|NaN)\\b"
+          "match": "(?i)\\b(?:inf|NaN)\\b"
         },
         {
           "name": "constant.numeric.migoto",
-          "match": "[+-]?\\d+(\\.\\d+(e[-+]\\d+)?)?\\b"
+          "match": "(?i)\\b\\d+(\\.\\d+(e[-+]\\d+)?)?\\b"
         },
         {
           "name": "constant.numeric.migoto",
-          "match": "[+-]?\\.\\d+\\b"
+          "match": "\\b\\.\\d+\\b"
         },
         {
           "name": "constant.numeric.migoto",
@@ -1932,7 +1453,7 @@
       "patterns": [
         {
           "name": "constant.other.path.migoto",
-          "match": "(?i)(?=.*[\\\\/])(?:(?:(?:[a-z]:|\\.[.]?)[\\\\/])?(?![\\s\\\\/]+)(?:\\.\\.|\\b[^>\\\\|/<?:*$]+)(?:(?:\\\\|/)(?:\\.\\.|[^>\\\\|/<?:*$\\r\\n]+))+)"
+          "match": "(?xi)\n      (?=.*[\\\\/])\n      (?:\n        (?:(?:[a-z]:|\\.[.]?)[\\\\/])?\n        (?![\\s\\\\/]+)(?:\\.\\.|\\b[^>\\\\|/<?:*$]+)\n        (?:(?:\\\\|/)(?:\\.\\.|[^>\\\\|/<?:*$\\r\\n]+))+\n      )\n    "
         },
         {
           "name": "constant.other.file.migoto",
@@ -1958,7 +1479,7 @@
       "patterns": [
         {
           "name": "meta.enum-value.directx entity.name.type.resource.migoto",
-          "match": "\\b(?i)((?:RW)?(?:Append|Consume)?StructuredBuffer|(?:RW)?(?:ByteAddress)?Buffer|(?:RW)?Texture[123]D|TextureCube)\\b"
+          "match": "(?xi)\\b(\n      (?:RW)?(?:Append|Consume)?StructuredBuffer|\n      (?:RW)?(?:ByteAddress)?Buffer|\n      (?:RW)?Texture[123]D|\n      TextureCube\n    )\\b"
         },
         {
           "include": "#dxgi-format"
