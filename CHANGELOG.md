@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.12.3
+
+Date: 2026-09-22
+
+### Fixed
+
+### Added
+
+### Changed
+- Refactored parts of the syntax for easier maintenance and organization
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.12.2...v0.12.3
+
 ## v0.12.2
 
-Date: 2026-09-23
+Date: 2026-09-22
 
 ### Fixed
 - Fixed issues related to the detection of custom resource and resource pool names
