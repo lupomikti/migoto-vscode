@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.12.4
+
+Date: 2026-10-03
+
+### Fixed
+- Fixed Input Array Setter assignments taking full expressions on the RHS
+- Fixed Input Array Setters accepting full expressions as arguments
+- Fixed Property Access Expressions not accepting a bare pool as the resource target
+
+### Added
+- Added forgotten HLSL semantics support for Property Access Method Calls
+
+### Changed
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.12.3...v0.12.4
+
 ## v0.12.3
 
 Date: 2026-09-22
