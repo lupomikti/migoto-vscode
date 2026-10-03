@@ -14,7 +14,7 @@ To build the VS Code Extension VSIX package, you will need to have installed `vs
 
 1. `pnpm package <version>`
 
-2. `vsce package <version> [--pre-release] --no-git-tag-version`
+2. `vsce package <version> --follow-symlinks --no-git-tag-version`
 
 `<version>` can be like "0.4.3" or "minor" to increment only the minor number from the previous value in `package.json`.
 
