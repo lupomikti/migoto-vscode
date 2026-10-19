@@ -704,7 +704,7 @@
         },
         {
           "name": "meta.statement.assignment.migoto",
-          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(?:(pre|post)\\s+)? # pre and post modifiers, optional\n( [^\\r\\n]+ -> \\w+\\( .+ \\) ) # a property access method call\n\\s*\n(=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # dgxi format or an integer\n(?:$|\\n)",
+          "match": "(?xi)\n^[ \\t]* # optional leading whitespace\n(?:(pre|post)\\s+)? # pre and post modifiers, optional\n( \\b(?:\n    [vhdgpc]s-cb\\d{1,2} | vb\\d | ib | (?:[rf]_)?bb |\n    [pc]s-u\\d | s?o\\d | od | [vhdgpc]s-t\\d{1,3} |\n    this | (?:ini|stereo)params | cursor_(?:mask|color) |\n    [vhdgpc]s |\n    Resource (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ |\n    Pool (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ (?: \\[ [^\\r\\n\\[\\]]+ \\] )?\n  ) -> \\w+ \\( [^()\\r\\n]* \\) ) # a property access method call\n\\s*\n(=)(?!=) # assignment operator, surrounded by optional whitespace\n\\s*\n([^\\r\\n]+) # dgxi format or an integer\n(?:$|\\n)",
           "captures": {
             "1": {
               "name": "meta.command-list.priority keyword.control.directive.migoto"
@@ -1116,7 +1116,7 @@
     },
     "property-access-expression": {
       "name": "meta.expression.property-access",
-      "match": "(?xi)\n([^\\r\\n]+) # resource operand\n(->)\n(\\w+) # property name\n(?!\\\\)\n",
+      "match": "(?xi)\n( \\b(?:\n    [vhdgpc]s-cb\\d{1,2} | vb\\d | ib | (?:[rf]_)?bb |\n    [pc]s-u\\d | s?o\\d | od | [vhdgpc]s-t\\d{1,3} |\n    this | (?:ini|stereo)params | cursor_(?:mask|color) |\n    [vhdgpc]s |\n    Resource (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ |\n    Pool (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ (?: \\[ [^\\r\\n\\[\\]]+ \\] )?\n  ) ) # resource or shader operand\n(->)\n(\\w+) # property name\n(?!\\\\)\n",
       "captures": {
         "1": {
           "patterns": [
@@ -1125,6 +1125,9 @@
             },
             {
               "include": "#resource-pool-base"
+            },
+            {
+              "include": "#shader-identifier"
             }
           ]
         },
@@ -1138,7 +1141,7 @@
     },
     "resource-property-method-call": {
       "name": "meta.function-call.resource-property",
-      "begin": "(?xi) ([^\\r\\n]+ -> \\w+) ( \\( )",
+      "begin": "(?xi) ( \\b(?:\n    [vhdgpc]s-cb\\d{1,2} | vb\\d | ib | (?:[rf]_)?bb |\n    [pc]s-u\\d | s?o\\d | od | [vhdgpc]s-t\\d{1,3} |\n    this | (?:ini|stereo)params | cursor_(?:mask|color) |\n    [vhdgpc]s |\n    Resource (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ |\n    Pool (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? [^-/&!>|<( )$=,\\[\\]\\r\\n\\\\]+ (?: \\[ [^\\r\\n\\[\\]]+ \\] )?\n  ) -> \\w+ ) ( \\( )",
       "beginCaptures": {
         "1": {
           "patterns": [
@@ -1163,12 +1166,18 @@
         },
         {
           "include": "#hlsl-semantic"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#operator"
         }
       ]
     },
     "builtin-function-call": {
       "name": "meta.function-call",
-      "begin": "(?xi) (?! [^\\r\\n]+ -> ) (\\w+) ( \\( )",
+      "begin": "(?xi) (?<! -> ) \\b (\\w+) ( \\( )",
       "beginCaptures": {
         "1": {
           "name": "support.function.builtin.migoto"
@@ -1191,7 +1200,7 @@
     },
     "named-variable": {
       "name": "meta.variable.named",
-      "match": "(?xi)\n(\\$)\n(?! Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)\n(?:\n  ([a-z_]\\w+|[a-z]) |\n  (\\\\[^=$\\r\\n]+\\\\) ([a-z_]\\w+|[a-z_])\n)",
+      "match": "(?xi)\n(\\$)\n(?! Pool\n  (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)\n(?:\n  ([a-z_]\\w+|[a-z]) |\n  (\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\) ([a-z_]\\w+|[a-z_])\n)",
       "captures": {
         "1": {
           "name": "punctuation.definition.variable.migoto"
@@ -1213,7 +1222,7 @@
     },
     "pooled-variable": {
       "name": "meta.variable.pooled",
-      "match": "(?xi)\n(\\$)\n( Pool\n  (?:\\\\[^=$\\r\\n]+\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)(?!\\\\)",
+      "match": "(?xi)\n(\\$)\n( Pool\n  (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)?\n  (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ )\n  (?: \\[ [^\\r\\n\\[\\]]+ \\] )\n)(?!\\\\)",
       "captures": {
         "1": {
           "name": "punctuation.definition.variable.migoto"
@@ -1275,7 +1284,7 @@
     },
     "custom-resource": {
       "name": "meta.variable.custom-resource",
-      "match": "\\b(?i)(Resource)(\\\\[^=$\\r\\n]+\\\\)?([^-/&!>|<( )$=,\\[\\]\\r\\n]+)(?!\\\\)",
+      "match": "\\b(?i)(Resource)(\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)?([^-/&!>|<( )$=,\\[\\]\\r\\n]+)(?!\\\\)",
       "captures": {
         "1": {
           "name": "entity.name.tag.migoto"
@@ -1298,7 +1307,7 @@
     },
     "resource-pool-base": {
       "name": "meta.variable.resource-pool",
-      "match": "\\b(?xi)\n(Pool)\n(\\\\[^=$\\r\\n]+\\\\)?\n([^-/&!>|<( )$=,\\[\\]\\r\\n]+)\n(?!\\\\)",
+      "match": "\\b(?xi)\n(Pool)\n(\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)?\n([^-/&!>|<( )$=,\\[\\]\\r\\n]+)\n(?!\\\\)",
       "captures": {
         "1": {
           "name": "entity.name.tag.migoto"
@@ -1321,7 +1330,7 @@
     },
     "resource-pool": {
       "name": "meta.variable.resource-pool",
-      "match": "\\b(?xi)\n( Pool (?:\\\\[^=$\\r\\n]+\\\\)? (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ ) )\n( \\[ [^\\r\\n\\[\\]]+ \\] )\n(?!\\\\)",
+      "match": "\\b(?xi)\n( Pool (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ ) )\n( \\[ [^\\r\\n\\[\\]]+ \\] )\n(?!\\\\)",
       "captures": {
         "1": {
           "patterns": [
