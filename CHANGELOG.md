@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.13.0
+
+Date: 2026-10-21
+
+### Fixed
+- Fixed the eagerness of regexes involved with property access expressions and property method calls
+- Fixed the arguments accepted as valid for function and method calls
+- Fixed namespace resolution parsing to be in align with recent updates to the XXMI DLL
+
+### Added
+- Added shaders as targets for property access expressions and property method calls
+
+### Changed
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.12.4...v0.13.0
+
 ## v0.12.4
 
 Date: 2026-10-03
