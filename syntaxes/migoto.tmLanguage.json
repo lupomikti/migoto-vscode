@@ -744,7 +744,7 @@
                   "include": "#resource"
                 },
                 {
-                  "include": "#resource-pool-base"
+                  "include": "#resource-pool"
                 }
               ]
             },
@@ -930,7 +930,7 @@
           "include": "#resource"
         },
         {
-          "include": "#resource-pool-base"
+          "include": "#resource-pool"
         }
       ]
     },
@@ -1038,7 +1038,7 @@
           "include": "#custom-resource"
         },
         {
-          "include": "#resource-pool"
+          "include": "#indexed-pool"
         }
       ]
     },
@@ -1068,7 +1068,7 @@
           "include": "#resource"
         },
         {
-          "include": "#resource-pool-base"
+          "include": "#resource-pool"
         },
         {
           "include": "#shader-identifier"
@@ -1124,7 +1124,7 @@
               "include": "#resource"
             },
             {
-              "include": "#resource-pool-base"
+              "include": "#resource-pool"
             },
             {
               "include": "#shader-identifier"
@@ -1222,7 +1222,7 @@
         "2": {
           "patterns": [
             {
-              "include": "#resource-pool"
+              "include": "#indexed-pool"
             }
           ]
         }
@@ -1297,7 +1297,7 @@
         }
       }
     },
-    "resource-pool-base": {
+    "resource-pool": {
       "name": "meta.variable.resource-pool",
       "match": "(?xi)\\b\n(Pool)\n(\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)?\n([^-/&!>|<( )$=,\\[\\]\\r\\n]+)\n(?!\\\\)",
       "captures": {
@@ -1320,14 +1320,14 @@
         }
       }
     },
-    "resource-pool": {
-      "name": "meta.variable.resource-pool",
+    "indexed-pool": {
+      "name": "meta.variable.indexed-pool",
       "match": "(?xi)\\b\n( Pool (?:\\\\[^\\\\=$\\r\\n]+(?:\\\\[\\w.]+)*\\\\)? (?: [^-/&!>|<( )$=,\\[\\]\\r\\n]+ ) )\n( \\[ [^\\[\\]\\r\\n]+ \\] )\n(?!\\\\)",
       "captures": {
         "1": {
           "patterns": [
             {
-              "include": "#resource-pool-base"
+              "include": "#resource-pool"
             }
           ]
         },
