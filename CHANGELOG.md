@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v0.13.1
+
+Date: 2026-10-30
+
+### Fixed
+- Fixed omission of two instruction keywords
+
+### Added
+
+### Changed
+- Changed the names of `resource-pool-base` and `resource-pool`
+  to `resource-pool` and `indexed-pool` respectively for clarity
+
+**Full Changelog**: https://github.com/lupomikti/migoto-vscode/compare/v0.13.0...v0.13.1
+
 ## v0.13.0
 
 Date: 2026-10-21
